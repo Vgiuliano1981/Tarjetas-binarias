@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PunchCard Messenger</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>PunchCard Messenger</h1>
+  <p class="lock">🔒 Todo el procesamiento ocurre en tu dispositivo.</p>
+  <nav>
+    <button id="tabC" class="tab on">Crear tarjeta</button>
+    <button id="tabL" class="tab">Leer tarjeta</button>
+  </nav>
+</header>
+
+<main>
+  <!-- ===== MODO ENVIAR ===== -->
+  <section id="create">
+    <div class="panel">
+      <h2>Crear tarjeta</h2>
+      <textarea id="msg" placeholder="Escribe tu mensaje…"></textarea>
+      <div class="meta"><span id="count">0 caracteres</span><span id="cap"></span></div>
+      <div class="btns">
+        <button id="gen" class="pri">Generar tarjeta</button>
+        <button id="ex">Ejemplo</button>
+        <button id="prt">Imprimir</button>
+        <button id="pdf">Descargar PDF</button>
+        <button id="png">Descargar PNG</button>
+      </div>
+    </div>
+    <div class="card-wrap" id="cardWrap"><canvas id="preview"></canvas><div class="scan"></div></div>
+  </section>
+
+  <!-- ===== MODO RECIBIR ===== -->
+  <section id="read" hidden>
+    <div class="panel">
+      <h2>Leer tarjeta</h2>
+      <div id="drop" class="drop">Arrastra aquí una imagen JPG, PNG o WEBP</div>
+      <div class="btns">
+        <label class="btn">Subir imagen<input id="file" type="file" accept="image/jpeg,image/png,image/webp" hidden></label>
+        <label class="btn">Usar cámara<input id="cam" type="file" accept="image/*" capture="environment" hidden></label>
+      </div>
+      <div id="status" class="status"></div>
+      <pre id="out" class="out" hidden></pre>
+      <label class="dbg"><input type="checkbox" id="dbg"> Modo depuración</label>
+      <pre id="debug" class="debug" hidden></pre>
+    </div>
+    <div class="card-wrap" id="srcWrap"><canvas id="src" width="4" height="3"></canvas><div class="scan"></div></div>
+  </section>
+</main>
+
+<details>
+  <summary>¿Cómo funciona?</summary>
+  <p class="flow">Texto → UTF-8 → bits → tarjeta perforada → impresión → escaneo → bits → UTF-8 → texto</p>
+  <p>Cada bit es un cuadrado negro (1) o un espacio en blanco (0) en una cuadrícula fija. Cuatro marcadores en las esquinas permiten corregir la perspectiva y la rotación. La tarjeta incluye marcador de inicio, longitud, datos, CRC32 y marcador de final: si algo no coincide, la lectura se rechaza en lugar de mostrar un mensaje corrupto.</p>
+</details>
+
+<footer>Sin servidor · Sin cuentas · Tu mensaje nunca sale del navegador.</footer>
+
+<div id="printArea"><img id="printImg" alt="Tarjeta"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
